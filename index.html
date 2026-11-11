@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>河源华为购机助手 · 消费者权益收益计算器</title>
+<meta name="description" content="河源区域华为产品购机权益试算工具：选择门店、机型与配置，试算国补、省补、以旧换新、运营商政策、教育优惠与分期免息，一键生成权益分享图。">
+<meta name="keywords" content="河源,华为,购机,国补,以旧换新,教育优惠,分期免息,权益计算器">
+<meta name="theme-color" content="#c7000b">
+<meta name="format-detection" content="telephone=no,address=no,email=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="河源华为购机助手">
+<meta name="mobile-web-app-capable" content="yes">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="河源华为购机助手 · 消费者权益收益计算器">
+<meta property="og:description" content="河源全市华为门店、六大品类在售机型，补贴与分期免息一站试算，一键生成权益分享图。">
+<meta property="og:url" content="https://zhuanghailiang.github.io/heyuan-huawei-assistant/">
+<meta property="og:image" content="https://zhuanghailiang.github.io/heyuan-huawei-assistant/icon-512.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root{
+    --red:#c7000b; --red-grad:linear-gradient(135deg,#e03024 0%,#c7000b 100%);
+    --bg:#f5f5f7; --card:#fff; --ink:#1a1a1a; --ink2:#666; --ink3:#999;
+    --line:#eee; --green:#07c160; --radius:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{background:#e8e8ea;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+       color:var(--ink);display:flex;justify-content:center;min-height:100vh;}
+  .phone{width:100%;max-width:480px;background:var(--bg);min-height:100vh;position:relative;
+         box-shadow:0 0 40px rgba(0,0,0,.12);padding-bottom:96px;}
+  .statusbar{background:var(--red);color:#fff;display:flex;justify-content:space-between;
+             align-items:center;padding:8px 18px;font-size:13px;font-weight:600;}
+  .top-share{border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;
+             font-size:12px;font-weight:600;border-radius:14px;padding:3px 12px;cursor:pointer;}
+  .top-share:active{background:rgba(255,255,255,.18);}
+  .nav-back{cursor:pointer;padding:0 6px;line-height:1;}
+  .capsule{cursor:pointer;}
+  .navbar{background:var(--red);color:#fff;display:flex;align-items:center;padding:10px 12px 12px;}
+  .navbar .title{flex:1;text-align:center;font-size:17px;font-weight:600;
+                 overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+  .navbar .capsule{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.45);
+                   border-radius:16px;padding:4px 12px;font-size:13px;background:rgba(0,0,0,.08);}
+  .navbar .capsule .ring{width:16px;height:16px;border:1.5px solid #fff;border-radius:50%;position:relative;}
+  .navbar .capsule .ring::after{content:"";position:absolute;inset:3px;border-radius:50%;border:1.5px solid #fff;}
+  .store-banner{background:var(--red-grad);color:#fff;padding:14px 16px 18px;}
+  .store-banner h1{font-size:20px;margin-top:6px;font-weight:700;}
+  .store-banner .sub{font-size:12px;margin-top:6px;opacity:.92;line-height:1.6;}
+  .store-banner .store-row{margin-top:12px;display:flex;align-items:center;gap:8px;
+      background:rgba(255,255,255,.16);border-radius:12px;padding:10px 12px;font-size:13px;}
+  .store-banner .store-row .switch{margin-left:auto;font-size:12px;border:1px solid rgba(255,255,255,.6);
+      border-radius:14px;padding:3px 10px;white-space:nowrap;cursor:pointer;}
+  .wrap{padding:12px;}
+  .card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;
+        box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .card-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;margin-bottom:12px;}
+  .card-title::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--red-grad);}
+  .card-title .tag{margin-left:auto;font-size:11px;font-weight:400;color:var(--ink3);
+                  background:#f5f5f5;border-radius:10px;padding:2px 8px;max-width:56%;
+                  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cate-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .cate-tab{text-align:center;padding:9px 0 7px;border-radius:12px;background:#f7f7f8;
+            font-size:12px;color:var(--ink2);cursor:pointer;border:1px solid transparent;}
+  .cate-tab .ico{display:block;line-height:0;margin-bottom:5px;color:inherit;}
+  .cate-tab .ico svg{width:21px;height:21px;display:inline-block;}
+  .cate-tab.active{background:#fdf0ef;color:var(--red);border-color:#f3c2c0;font-weight:700;}
+  /* 下拉选择 */
+  .field{margin-top:12px;}
+  .field label{display:block;font-size:12px;color:var(--ink2);margin-bottom:6px;font-weight:600;}
+  .field label span{font-weight:400;color:var(--ink3);}
+  select{width:100%;appearance:none;-webkit-appearance:none;background:#fff;
+         border:1.5px solid var(--line);border-radius:12px;padding:12px 34px 12px 12px;
+         font-size:14px;color:var(--ink);outline:none;
+         background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/></svg>");
+         background-repeat:no-repeat;background-position:right 12px center;}
+  select:focus{border-color:var(--red);}
+  .sel-row{display:flex;gap:8px;align-items:flex-end;}
+  .sel-row .field{flex:1;min-width:0;}
+  .model-info{margin-top:12px;background:#fdf7f6;border:1px solid #f7dedb;border-radius:12px;
+              padding:12px;display:flex;align-items:center;gap:10px;}
+  .model-info .mi-ico{width:38px;height:38px;border-radius:11px;background:#fdf0ef;color:var(--red);
+                      display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .model-info .mi-ico svg{width:22px;height:22px;}
+  .model-info .mi-name{font-size:14px;font-weight:700;}
+  .model-info .mi-brief{font-size:11px;color:var(--ink2);margin-top:2px;}
+  .model-info .mi-price{margin-left:auto;text-align:right;white-space:nowrap;}
+  .model-info .mi-price b{font-size:17px;color:var(--red);}
+  .model-info .mi-price small{font-size:10px;color:var(--ink3);display:block;}
+  .price-row{margin-top:10px;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;
+             display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;}
+  .price-row .pr-main{flex:1 1 150px;}
+  .price-row .pr-title{font-size:13px;font-weight:600;}
+  .price-row .pr-desc{font-size:10px;color:var(--ink3);margin-top:3px;line-height:1.45;}
+  .price-row .pr-desc b{color:var(--red);}
+  .price-row .pr-box{display:flex;align-items:center;gap:11px;margin-left:auto;}
+  .price-row .pr-yen{font-size:14px;color:var(--red);font-weight:700;}
+  .price-row input{width:132px;padding:8px 10px;border:1.5px solid var(--line);border-radius:9px;
+                   font-size:14px;font-weight:700;color:var(--red);text-align:right;outline:none;}
+  .price-row input:focus{border-color:var(--red);}
+  .price-row .pr-reset{font-size:11px;color:var(--red);border:1px solid #f3c2c0;border-radius:8px;
+                       padding:6px 8px;cursor:pointer;background:#fff8f7;white-space:nowrap;}
+
+  .switch-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .switch-row:last-child{border-bottom:none;padding-bottom:0;}
+  .switch-row:first-child{padding-top:0;}
+  .switch-row .s-main{flex:1;min-width:120px;}
+  .switch-row .s-title{font-size:14px;font-weight:600;}
+  .switch-row .s-desc{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.5;}
+  .toggle{width:46px;height:27px;border-radius:14px;background:#e0e0e0;position:relative;
+          cursor:pointer;flex-shrink:0;transition:.2s;}
+  .toggle::after{content:"";position:absolute;top:2px;left:2px;width:23px;height:23px;border-radius:50%;
+                 background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:.2s;}
+  .toggle.on{background:var(--green);}
+  .toggle.on::after{left:21px;}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;width:100%;}
+  .opt-btn{font-size:12px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--line);
+           cursor:pointer;background:#fff;text-align:center;}
+  .opt-btn.active{border-color:var(--red);color:var(--red);font-weight:600;background:#fff8f7;}
+  .opt-btn small{display:block;font-size:10px;color:var(--ink3);font-weight:400;margin-top:1px;}
+  .opt-btn.active small{color:#e07570;}
+  .benefit{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);cursor:pointer;}
+  .benefit:last-child{border-bottom:none;}
+  .checkbox{width:20px;height:20px;border-radius:6px;border:1.5px solid #ccc;flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;}
+  .benefit.on .checkbox{background:var(--red);border-color:var(--red);}
+  .benefit .b-name{font-size:13px;font-weight:600;flex:1;}
+  .settle{background:linear-gradient(150deg,#2b2b2e 0%,#171719 60%,#0e0e10 100%);color:#fff;
+          border-radius:var(--radius);padding:18px 16px;margin-bottom:12px;position:relative;overflow:hidden;}
+  .settle::before{content:"";position:absolute;top:-40px;right:-40px;width:140px;height:140px;
+                  border-radius:50%;background:radial-gradient(circle,rgba(199,0,11,.5),transparent 70%);}
+  .settle .row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:#bbb;}
+  .settle .row .v{color:#fff;}
+  .settle .row .v.plus{color:#7ee2a8;}
+  .settle .row .v.gift{color:#ffd591;}
+  .settle .divider{border-top:1px dashed #444;margin:8px 0;}
+  .settle .final{display:flex;justify-content:space-between;align-items:flex-end;padding-top:6px;}
+  .settle .final .label{font-size:13px;color:#bbb;}
+  .settle .final .price{font-size:32px;font-weight:800;color:#ff5a4e;}
+  .settle .final .price small{font-size:14px;font-weight:600;}
+  .settle .final .right{text-align:right;font-size:12px;color:#bbb;}
+  .settle .final .right b{color:#ffd591;font-size:15px;}
+  .settle .installment{margin-top:10px;background:rgba(255,90,78,.12);border:1px solid rgba(255,90,78,.35);
+                       border-radius:10px;padding:9px 12px;font-size:12px;color:#ffb3ad;}
+  .settle .installment b{font-size:16px;color:#ff5a4e;}
+  .amt-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;width:100%;}
+  .amt-row .amt-label{font-size:12px;color:var(--ink2);white-space:nowrap;}
+  .amt-row input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:10px;
+                 padding:10px 12px;font-size:14px;color:var(--ink);outline:none;background:#fff;}
+  .amt-row input:focus{border-color:var(--red);}
+  .amt-row .amt-unit{font-size:13px;color:var(--red);font-weight:700;white-space:nowrap;}
+  .amt-row .amt-hint{font-size:11px;color:var(--ink3);white-space:nowrap;}
+  .note{font-size:11px;color:var(--ink3);line-height:1.8;}
+  .note b{color:var(--ink2);}
+  .note a{color:var(--red);text-decoration:none;}
+  .fix-card{background:#fff8e6;border:1px solid #ffe0a3;border-radius:var(--radius);
+            padding:14px;margin-bottom:12px;font-size:12px;color:#7a5b16;line-height:1.8;}
+  .fix-card b{color:#b8790a;}
+  /* 门店置顶 / 规则卡 */
+  .card-title .tag{max-width:56%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cur-store{background:linear-gradient(135deg,#fff5f4,#fff);border:1.5px solid #f6d3d0;
+             border-radius:14px;padding:12px;margin-bottom:12px;}
+  .cur-store .cs-label{font-size:11px;color:var(--red);font-weight:700;}
+  .cur-store .cs-name{font-size:15px;font-weight:700;margin-top:4px;line-height:1.4;}
+  .cur-store .cs-addr{font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.6;}
+  .store-more{width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1.5px dashed #f0b9b5;
+              background:#fff8f7;color:var(--red);font-size:13px;font-weight:600;cursor:pointer;}
+  .rule-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:8px;background:#eaf7ef;
+            color:#07a35c;margin-left:4px;font-weight:600;vertical-align:middle;}
+  .rule-tag.off{background:#f2f2f2;color:#999;}
+  .rule-note{background:#f7f9ff;border:1px solid #dbe6ff;border-radius:10px;padding:10px 12px;
+             font-size:11.5px;color:#41527a;line-height:1.8;margin-bottom:6px;}
+  .rule-note b{color:#1c3b7a;}
+  .mutex-tip{background:#fff4e5;border:1px solid #ffd9a8;color:#96590a;border-radius:10px;
+             padding:9px 12px;font-size:11px;line-height:1.7;margin-top:12px;}
+  .mutex-tip b{color:#b04a06;}
+  .settle .row .v.birth{color:#ffd591;}
+  /* 门店 */
+  .filter-row{display:flex;gap:8px;margin-bottom:12px;}
+  .filter-row select{flex:1;min-width:0;padding:10px 30px 10px 10px;font-size:13px;}
+  .area-title{font-size:13px;font-weight:700;color:var(--red);margin:14px 0 4px;
+              display:flex;align-items:center;gap:6px;}
+  .area-title::after{content:"";flex:1;border-top:1px dashed #f0c9c6;}
+  .store-item{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);align-items:flex-start;}
+  .store-item:last-child{border-bottom:none;}
+  .store-item .st-ico{width:34px;height:34px;border-radius:10px;background:#fdf0ef;color:var(--red);
+                      display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .store-item .st-main{flex:1;min-width:0;cursor:pointer;}
+  .store-item .st-name{font-size:13px;font-weight:700;line-height:1.4;}
+  .store-item .st-addr{font-size:11px;color:var(--ink2);margin-top:3px;line-height:1.5;}
+  .store-item .st-meta{font-size:11px;color:var(--ink3);margin-top:3px;}
+  .st-tag{display:inline-block;font-size:10px;color:var(--red);background:#fdf0ef;border-radius:4px;
+          padding:1px 6px;margin:4px 4px 0 0;}
+  .st-type{display:inline-block;font-size:10px;color:#fff;background:var(--red);border-radius:4px;
+           padding:1px 6px;margin-right:5px;vertical-align:1px;}
+  .st-type.life{background:#0e9b6c;}
+  .store-item .nav-btn{flex-shrink:0;border:1px solid var(--red);color:var(--red);font-size:11px;
+                       border-radius:16px;padding:5px 10px;cursor:pointer;background:#fff;}
+  .bottom-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+     background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+     display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));z-index:50;}
+  .btn{flex:1;border-radius:24px;text-align:center;padding:13px 0;font-size:14px;font-weight:600;
+       cursor:pointer;border:none;}
+  .btn.ghost{background:#fff;color:var(--red);border:1px solid var(--red);}
+  .btn.primary{background:var(--red-grad);color:#fff;box-shadow:0 4px 12px rgba(199,0,11,.3);}
+  .footer{font-size:11px;color:var(--ink3);text-align:center;line-height:1.9;
+          padding:16px 14px 8px;}
+  .mask{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:none;
+        align-items:flex-end;justify-content:center;}
+  .mask.show{display:flex;}
+  .sheet{background:#fff;width:100%;max-width:480px;border-radius:20px 20px 0 0;
+         padding:16px 16px calc(20px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;}
+  .sheet .close{text-align:center;color:var(--ink3);font-size:13px;margin-bottom:10px;cursor:pointer;}
+  #shareImg{display:none;}
+  #sharePreview{width:100%;border-radius:14px;display:block;box-shadow:0 2px 12px rgba(0,0,0,.15);
+    -webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto;}
+  .sheet .tip{font-size:11px;color:var(--ink3);text-align:center;margin-top:10px;line-height:1.6;}
+  .toast{position:fixed;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.78);
+         color:#fff;font-size:14px;padding:10px 20px;border-radius:10px;z-index:200;opacity:0;
+         pointer-events:none;transition:.25s;}
+  .toast.show{opacity:1;}
+  @media(min-width:481px){body{padding:20px 0;}.phone{border-radius:24px;min-height:auto;}
+    .bottom-bar{left:0;right:0;transform:none;margin:0 auto;border-radius:0 0 24px 24px;}}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="statusbar"><span>河源 · 华为购机助手</span><button class="top-share" onclick="sharePage()" aria-label="分享本页面">分享</button></div>
+  <div class="navbar"><span class="nav-back" onclick="goBack()" role="button" aria-label="返回上一页">‹</span>
+    <div class="title">华为新机购买引导 · 河源区域</div>
+    <div class="capsule" onclick="openShare()" role="button" aria-label="生成权益分享图" title="生成权益分享图"><span style="letter-spacing:2px;">•••</span><span class="ring"></span></div>
+  </div>
+
+  <div class="store-banner">
+    <div style="font-size:13px;opacity:.9;">河源全市门店 · 到店体验</div>
+    <h1 id="bannerTitle">欢迎光临华为体验店</h1>
+    <div class="sub" id="bannerAddr">政府补贴 · 以旧换新 · 分期免息 · 门店专属礼遇一站算清</div>
+    <div class="store-row">
+      <b id="storeRowName">华为授权体验店 · 坚基购物中心</b>
+      <span style="opacity:.85" id="storeRowTime">10:00-22:00</span>
+      <span class="switch" onclick="scrollToId('stores')">切换门店</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- ① 河源门店（置顶 · 仅下拉选择） -->
+    <div class="card store-top" id="stores">
+      <div class="card-title">河源全市华为门店<span class="tag" id="storeCount">共 0 家</span></div>
+      <div class="filter-row">
+        <select id="selArea" onchange="storeFilter.area=this.value;renderStores()"></select>
+        <select id="selType" onchange="storeFilter.type=this.value;renderStores()"></select>
+      </div>
+      <div class="field" style="margin-top:0;">
+        <label>选择门店 <span>· 当前筛选 <b id="storeCount2">0 家</b>，可下拉切换</span></label>
+        <select id="selStore" onchange="pickStore(this.value)"></select>
+      </div>
+      <div class="cur-store" id="curStoreBox"></div>
+      <button class="store-more" style="margin-top:10px;" onclick="navCurrent()">导航到该门店</button>
+    </div>
+
+    <!-- ② 机型选择 -->
+    <div class="card">
+      <div class="card-title">消费者权益收益计算器<span class="tag" id="modelCount">机型库</span></div>
+      <div class="cate-tabs" id="cateTabs"></div>
+      <div class="field">
+        <label>① 选择系列 <span>· 共 <b id="seriesCount">0</b> 个系列</span></label>
+        <select id="selSeries" onchange="setSeries(this.value)"></select>
+      </div>
+      <div class="field">
+        <label>② 选择机型 <span>· 下拉查看全部在售机型</span></label>
+        <select id="selProduct" onchange="setProduct(this.value)"></select>
+      </div>
+      <div class="field">
+        <label>③ 选择配置 / 尺寸 <span>· 影响最终标价</span></label>
+        <select id="selVariant" onchange="setVariant(this.value)"></select>
+      </div>
+      <div class="model-info" id="modelInfo"></div>
+      <div class="price-row">
+        <div class="pr-main">
+          <div class="pr-title">商品价格</div>
+          <div class="pr-desc">官网价 <b id="officialPrice">¥0</b> · 可修改</div>
+        </div>
+        <div class="pr-box">
+          <span class="pr-yen">¥</span>
+          <input id="inpPrice" type="number" min="0" step="1" inputmode="numeric" value="0" oninput="setPrice(this.value)">
+          <span class="pr-reset" onclick="resetPrice()">官网价</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ 补贴与优惠配置 -->
+    <div class="card">
+      <div class="card-title">补贴与优惠配置<span class="tag">按机型自动带出</span></div>
+      <div class="rule-note" id="ruleNote"></div>
+      <div class="switch-row">
+        <div class="s-main"><div class="s-title">国家补贴（国补）</div>
+          <div class="s-desc" id="guobuDesc">按品类自动匹配补贴规则</div></div>
+        <div class="toggle on" id="tglGuobu" onclick="toggle('guobu')"></div>
+      </div>
+      <div class="switch-row">
+        <div class="s-main"><div class="s-title">省级补贴（省补）</div>
+          <div class="s-desc">广东省 / 河源市地方补贴，金额按门店当期政策填写</div></div>
+        <div class="toggle" id="tglShengbu" onclick="toggle('shengbu')"></div>
+        <div class="amt-row" id="shengbuAmtRow" style="display:none;">
+          <span class="amt-label">补贴金额</span><span class="amt-unit">¥</span>
+          <input id="inpShengbu" type="number" min="0" step="10" inputmode="numeric" value="0" placeholder="输入省补金额" oninput="setAmt('shengbuAmt',this.value)">
+          <span class="amt-hint">到店核销</span>
+        </div>
+      </div>
+      <div class="switch-row">
+        <div class="s-main"><div class="s-title">以旧换新补贴<span class="rule-tag" id="tradeRuleTag"></span></div>
+          <div class="s-desc">按图例机型档位自动带出（旧机回收价 25% 补贴 · 对应封顶金额），可手动修改</div></div>
+        <div class="toggle" id="tglTrade" onclick="toggle('trade')"></div>
+        <div class="amt-row" id="tradeAmtRow" style="display:none;">
+          <span class="amt-label">补贴金额</span><span class="amt-unit">¥</span>
+          <input id="inpTrade" type="number" min="0" step="10" inputmode="numeric" value="0" placeholder="输入补贴金额" oninput="setAmt('tradeAmt',this.value)">
+          <span class="amt-hint" id="tradeAmtHint">图例档位</span>
+        </div>
+      </div>
+      <div class="switch-row">
+        <div class="s-main"><div class="s-title">运营商政策优惠</div>
+          <div class="s-desc">携号入网 / 宽带融合，金额按河源当地方案填写</div></div>
+        <div class="toggle" id="tglOperator" onclick="toggle('operator')"></div>
+        <div class="amt-row" id="operatorAmtRow" style="display:none;">
+          <span class="amt-label">优惠金额</span><span class="amt-unit">¥</span>
+          <input id="inpOperator" type="number" min="0" step="10" inputmode="numeric" value="500" placeholder="输入补贴金额" oninput="setAmt('operatorAmt',this.value)">
+          <span class="amt-hint">合约补贴</span>
+        </div>
+      </div>
+      <div class="switch-row">
+        <div class="s-main"><div class="s-title">体验店教育优惠<span class="rule-tag" id="eduRuleTag"></span></div>
+          <div class="s-desc">按图例机型档位自动带出金额，凭学生证 / 录取通知书 / 教师资格证核验</div></div>
+        <div class="toggle" id="tglEdu" onclick="toggle('edu')"></div>
+        <div class="amt-row" id="eduAmtRow" style="display:none;">
+          <span class="amt-label">优惠金额</span><span class="amt-unit">¥</span>
+          <input id="inpEdu" type="number" min="0" step="10" inputmode="numeric" value="0" placeholder="输入教育优惠金额" oninput="setAmt('eduAmt',this.value)">
+          <span class="amt-hint">需核验</span>
+        </div>
+      </div>
+      <div class="switch-row">
+        <div class="s-main"><div class="s-title">会员生日礼</div>
+          <div class="s-desc">满 ¥5,000 减 ¥200 / 满 ¥3,000 减 ¥150 / 满 ¥1,000 减 ¥100，按原价档位自动计算</div></div>
+        <div class="toggle" id="tglBirth" onclick="toggle('birth')"></div>
+      </div>
+      <div class="switch-row">
+        <div class="s-main"><div class="s-title">分期免息</div>
+          <div class="s-desc">6 / 12 / 24 期可选，花呗 / 京东白条 / 聚分期，0 手续费</div></div>
+        <div class="opts" id="installOpts"></div>
+      </div>
+      <div class="mutex-tip" id="mutexTip"></div>
+    </div>
+
+    <!-- ④ 门店权益 -->
+    <div class="card">
+      <div class="card-title">河源门店专属权益<span class="tag">到店核销 · 不计价</span></div>
+      <div id="benefitList"></div>
+    </div>
+
+    <!-- ⑤ 结算 -->
+    <div class="settle">
+      <div class="row"><span>商品价格</span><span class="v" id="rowBase">¥0</span></div>
+      <div class="row" id="rowGuobuWrap"><span id="rowGuobuLabel">国补</span><span class="v plus" id="rowGuobu">-¥0</span></div>
+      <div class="row" id="rowShengbuWrap"><span>省级补贴（省补）</span><span class="v plus" id="rowShengbu">-¥0</span></div>
+      <div class="row" id="rowTradeWrap"><span>以旧换新补贴</span><span class="v plus" id="rowTrade">-¥0</span></div>
+      <div class="row" id="rowOperatorWrap"><span>运营商政策优惠</span><span class="v plus" id="rowOperator">-¥0</span></div>
+      <div class="row" id="rowEduWrap"><span>体验店教育优惠</span><span class="v plus" id="rowEdu">-¥0</span></div>
+      <div class="row" id="rowBirthWrap"><span>会员生日礼</span><span class="v plus birth" id="rowBirth">-¥0</span></div>
+      <div class="divider"></div>
+      <div class="final">
+        <div><div class="label">预计到手价</div><div class="price" id="rowFinal"><small>¥</small>0</div></div>
+        <div class="right">综合节省<br><b id="rowSave">¥0</b></div>
+      </div>
+      <div class="installment" id="rowInstall" style="display:none;"></div>
+    </div>
+
+    <!-- ⑥ 说明与来源 -->
+    <div class="card">
+      <div class="card-title">计算说明与数据来源</div>
+      <div class="note">
+        · <b>机型与价格</b>：依据华为官网 / 华为商城（VMALL）2026 年在售列表整理，价格为公开起售价或参考价，配置加价为估算，<b>以河源门店实时报价为准</b>。<br>
+        · <b>国补 / 省补</b>：国补按品类分档试算（手机 / 平板 / 穿戴 ≤¥6,000 享 15%、&gt;¥6,000 享 10%，封顶 ¥500；PC / 智慧屏 / 耳机 15%、封顶 ¥1,500）；省补为地方补贴，金额按门店当期政策填写，均以门店 POS 核销为准。<br>
+        · <b>业务规则</b>：分期免息 <b>6 / 12 / 24 期</b>可选（花呗、京东白条、聚分期，0 手续费）；以旧换新按机型档位 <b>¥1200 / 1000 / 800 / 600 / 300 / 200</b>（旧机回收价 25% 补贴对应封顶金额），智慧屏 S7 Pro 按尺寸固定补贴 <b>98″¥600 / 85″¥400 / 75″¥300 / 65″¥200</b>；教育优惠按机型 <b>¥100 / 300 / 500 / 200 / 150 / 50</b>；会员生日礼 <b>满 5000-200 / 3000-150 / 1000-100</b>。<br>
+        · <b>叠加互斥</b>：分期免息与以旧换新<b>互斥</b>；生日礼与教育优惠、以旧换新、组合购<b>不可叠加</b>（与分期免息、商务优惠可叠加）。生日礼不适用于全部 SKU，且仅限会员生日当月领取、次月最后一日前使用。各项补贴金额均可在页面手动调整，最终以门店核销为准。
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>本页价格、补贴与优惠金额均为试算参考，实际以门店报价及当期政策核销结果为准。</div>
+      <div>本页面为河源区域购机引导工具，非华为官方销售或报价页面。</div>
+      <div>© 2026 河源华为购机助手</div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="btn ghost" onclick="resetAll()">重置</button>
+    <button class="btn ghost" onclick="scrollToId('stores')">选门店</button>
+    <button class="btn primary" onclick="openShare()">一键生成权益分享图</button>
+  </div>
+
+  <div class="mask" id="mask" onclick="if(event.target===this)closeShare()">
+    <div class="sheet">
+      <div class="close" onclick="closeShare()">— 收起 —</div>
+      <canvas id="shareImg" width="750" height="1100" style="display:none"></canvas>
+      <img id="sharePreview" alt="河源华为购机权益分享图" draggable="false">
+      <div class="tip" id="shareTip">长按图片可保存 / 转发给朋友<br>截图内容为试算结果，最终优惠以门店核销为准</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button class="btn ghost" id="btnSave" style="padding:11px 0;" onclick="downloadShare()">保存到相册</button>
+        <button class="btn primary" style="padding:11px 0;" onclick="copySummary()">复制摘要</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* =============== 品类 =============== */
+const CATS=[
+  {id:'phone',name:'手机',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="3"/><path d="M10.6 5.6h2.8"/><path d="M10.9 18.6h2.2"/></svg>'},
+  {id:'wear', name:'穿戴',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="6.6" width="11.2" height="10.8" rx="3.2"/><path d="M9.2 6.6V3.4h5.6v3.2"/><path d="M9.2 17.4v3.2h5.6v-3.2"/><path d="M12 10.4v3.4"/></svg>'},
+  {id:'audio',name:'耳机',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 14.2v-2.4a7.8 7.8 0 0 1 15.6 0v2.4"/><rect x="2.2" y="13.6" width="4.2" height="7.2" rx="2.1"/><rect x="17.6" y="13.6" width="4.2" height="7.2" rx="2.1"/></svg>'},
+  {id:'pc',   name:'PC',    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.2" y="4.4" width="15.6" height="11.2" rx="2"/><path d="M2.4 19h19.2"/></svg>'},
+  {id:'pad',  name:'平板',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.4" y="2.6" width="15.2" height="18.8" rx="3"/><path d="M10.8 18.6h2.4"/></svg>'},
+  {id:'hd',   name:'智慧屏',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.4" y="3.6" width="19.2" height="12.8" rx="2.4"/><path d="M8.4 20.4h7.2"/><path d="M12 16.4v4"/></svg>'},
+];
+
+/* =============== 系列 =============== */
+const SERIES={
+  phone:[{id:'mate',name:'Mate 系列'},{id:'pura',name:'Pura 系列'},{id:'fold',name:'折叠 / 阔型屏'},
+         {id:'nova',name:'nova 系列'},{id:'enjoy',name:'畅享系列'}],
+  wear:[{id:'watch',name:'WATCH 系列'},{id:'gt',name:'WATCH GT 系列'},{id:'fit',name:'WATCH FIT 系列'},
+        {id:'d',name:'WATCH D 血压系列'},{id:'ult',name:'WATCH Ultimate 非凡大师'},
+        {id:'band',name:'手环系列'},{id:'kid',name:'儿童 / 少年手表'}],
+  audio:[{id:'buds',name:'FreeBuds 入耳'},{id:'clip',name:'FreeClip 耳夹'},{id:'arc',name:'FreeArc 耳挂'},
+         {id:'glass',name:'智能眼镜'},{id:'sound',name:'音箱 / 家庭影院'}],
+  pc:[{id:'mbpro',name:'MateBook Pro 鸿蒙'},{id:'mb14',name:'MateBook 14'},{id:'mbd',name:'MateBook D'},
+      {id:'mbfold',name:'MateBook Fold 非凡大师'},{id:'display',name:'显示器 / 打印'}],
+  pad:[{id:'padpro',name:'MatePad Pro'},{id:'padair',name:'MatePad Air'},
+       {id:'padnum',name:'MatePad 数字 / SE'},{id:'padmini',name:'MatePad Mini / Edge'}],
+  hd:[{id:'vision',name:'华为 Vision 智慧屏'},{id:'s',name:'智慧屏 S 系列'},
+      {id:'matetv',name:'智慧屏 MateTV'},{id:'v',name:'智慧屏 V 系列'}],
+};
+
+/* =============== 在售机型库 ===============
+   [品类, 系列, 机型名, 卖点, 起售价(元), 角标]
+   依据华为官网 / 华为商城 VMALL 2026 在售列表整理
+=============================================== */
+const RAW=[
+  // ---------- 手机 · Mate ----------
+  ['phone','mate','Mate 90 Pro Max','麒麟9050 · 全昆仑玄武架构',9499,'新品'],
+  ['phone','mate','Mate 80 Pro Max 风驰版','风驰散热 · 第二代红枫影像',8499,''],
+  ['phone','mate','Mate 80 Pro Max','玄武架构 · 户外探索模式',7999,''],
+  ['phone','mate','Mate 80 RS 非凡大师','非凡大师 · 双层 OLED',11999,'旗舰'],
+  ['phone','mate','Mate 80 Pro','第二代红枫影像 · 鸿蒙 AI',5999,'热销'],
+  ['phone','mate','Mate 80','麒麟9020 · 超可靠玄武架构',4699,'热销'],
+  ['phone','mate','Mate 70 Air','轻薄直屏 · 长续航',4199,''],
+  ['phone','mate','Mate 70 Pro+','双卫星通信 · 红枫原色',8499,''],
+  ['phone','mate','Mate 70 Pro','鸿蒙 AI · 可变光圈',6499,''],
+  ['phone','mate','Mate 70 Pro 优享版','经典旗舰 · 影像升级',6199,''],
+  ['phone','mate','Mate 70','鸿蒙原生 · 北斗卫星消息',5499,''],
+  // ---------- 手机 · Pura ----------
+  ['phone','pura','Pura 90 Plus','等深四曲屏 · 一英寸超大底',5999,'新品'],
+  ['phone','pura','Pura 90','鸿蒙 7 · 红枫影像',4999,'新品'],
+  ['phone','pura','Pura 80 Pro','一英寸主摄 · 5.5x 长焦',6499,'热销'],
+  ['phone','pura','Pura 80','超聚光影像 · 第二代昆仑玻璃',4699,'热销'],
+  ['phone','pura','Pura 80 Pro+','Ultra 级影像 · 双卫星',7499,''],
+  ['phone','pura','Pura 80 Ultra','伸缩镜头 · 一英寸大底',9999,'旗舰'],
+  // ---------- 手机 · 折叠 / 阔型 ----------
+  ['phone','fold','Mate X7','折叠玄武架构 · 大屏 AI 智能体',11999,'新品'],
+  ['phone','fold','Mate XTs 非凡大师','三折叠 · 非凡大师',17999,'旗舰'],
+  ['phone','fold','Mate X6','分布式玄武架构 · 红枫原色',12999,''],
+  ['phone','fold','Mate XT 非凡大师','全球首款三折叠',19999,'典藏'],
+  ['phone','fold','Pura X Max','双面阔型屏 · 小艺伴随式 AI',10999,'新品'],
+  ['phone','fold','Pura X View','沉浸阔直板 · 2 亿红枫影像',6999,''],
+  ['phone','fold','Pura X','1610 阔型屏 · 鸿蒙 AI',7499,'热销'],
+  ['phone','fold','Pocket 2 优享版','纵向折叠 · 珍珠双环',5999,''],
+  ['phone','fold','nova Flip S','轻薄小折叠 · 风尚设计',3999,''],
+  // ---------- 手机 · nova ----------
+  ['phone','nova','nova 16 Ultra','红枫影像 · 麒麟9010S',4699,'新品'],
+  ['phone','nova','nova 16 Pro','前置人像 · 鸿蒙 AI',3899,'新品'],
+  ['phone','nova','nova 16','7000mAh 巨鲸电池',2999,'新品'],
+  ['phone','nova','nova 16 SE','8500mAh 巨鲸电池',2699,'新品'],
+  ['phone','nova','nova 16z','轻薄直屏 · 长续航',2699,'新品'],
+  ['phone','nova','nova 15 Ultra','多焦段红枫影像',4199,''],
+  ['phone','nova','nova 15 Pro','前置 5000 万人像',3499,''],
+  ['phone','nova','nova 15','麒麟8020 · 100W 快充',2699,'热销'],
+  ['phone','nova','nova 14 Ultra','红枫原色 · 长焦人像',4199,''],
+  ['phone','nova','nova 14 Pro','前置双摄 · 轻薄机身',3499,''],
+  ['phone','nova','nova 14 活力版','6000mAh · 鸿蒙安全',2199,''],
+  ['phone','nova','nova 14','鸿蒙 AI · 人像摄影',2699,''],
+  // ---------- 手机 · 畅享 ----------
+  ['phone','enjoy','畅享 100 Pro Max','8800mAh 巨鲸电池 · 双五星耐摔',1999,'新品'],
+  ['phone','enjoy','畅享 100 Pro','前置 3200 万 · 鸿蒙星盾',1799,'新品'],
+  ['phone','enjoy','畅享 100','麒麟芯 · 鸿蒙星盾防诈',1399,'新品'],
+  ['phone','enjoy','畅享 90 Pro Max','大电池 · 超耐摔',1699,''],
+  ['phone','enjoy','畅享 90 Plus','长续航 · 大屏',1499,''],
+  ['phone','enjoy','畅享 90','麒麟芯 · 超流畅',1299,''],
+  ['phone','enjoy','畅享 70X 尊享版','巨鲸电池 · 北斗卫星消息',1999,''],
+  ['phone','enjoy','畅享 80','大电池 · 耐用大屏',1199,''],
+  ['phone','enjoy','畅享 70X','6100mAh · 双曲护眼屏',1399,''],
+  ['phone','enjoy','畅享 70S','轻薄长续航',1099,''],
+  // ---------- 穿戴 · WATCH ----------
+  ['wear','watch','WATCH 6 Pro','航天级钛合金 · AI 健康洞察',3499,'新品'],
+  ['wear','watch','WATCH 6','鸿蒙 AI · 腕上智能体',2799,'新品'],
+  ['wear','watch','WATCH Buds 2','手表耳机二合一',3488,'热销'],
+  ['wear','watch','WATCH 5','X-TAP 智感窗 · 鸿蒙 AI',2699,''],
+  // ---------- 穿戴 · GT ----------
+  ['wear','gt','WATCH GT 7 Pro','钛合金 & 纳米微晶陶瓷 · 21 天续航',2688,'新品'],
+  ['wear','gt','WATCH GT 7','身体状态准备度 · 14 天续航',1588,'新品'],
+  ['wear','gt','WATCH GT Runner 2','专业马拉松 · 超轻薄钛合金',2588,''],
+  ['wear','gt','WATCH GT 6 Pro','户外进阶运动',2488,''],
+  ['wear','gt','WATCH GT 6','长续航运动健康',1488,''],
+  // ---------- 穿戴 · FIT ----------
+  ['wear','fit','WATCH FIT 5 Pro','1.92 英寸窄边框全面屏',2099,'新品'],
+  ['wear','fit','WATCH FIT 5','超轻薄大屏 · 腕上微运动',1099,'热销'],
+  ['wear','fit','WATCH FIT 4 Pro','户外运动 · 轻薄方表',1599,''],
+  ['wear','fit','WATCH FIT 4','轻薄大屏 · 长续航',999,''],
+  // ---------- 穿戴 · D ----------
+  ['wear','d','WATCH D3','腕部动态血压记录仪',2988,'新品'],
+  ['wear','d','WATCH D2','动态血压监测',2988,''],
+  // ---------- 穿戴 · Ultimate ----------
+  ['wear','ult','WATCH Ultimate 2','专业滑雪 · 海豚声呐通信',6499,'新品'],
+  ['wear','ult','ULTIMATE DESIGN 紫金款','复合稀土紫色陶瓷表圈',24999,'典藏'],
+  ['wear','ult','ULTIMATE DESIGN 星钻绽放款','99 颗天然钻石 · X-TAP 智感窗',29999,'典藏'],
+  ['wear','ult','ULTIMATE DESIGN 蓝宝石黄金款','蓝宝石黄金工艺',23999,'典藏'],
+  // ---------- 穿戴 · 手环 ----------
+  ['wear','band','手环 11 Pro','独立 GNSS 五星定位',389,'热销'],
+  ['wear','band','手环 11','8.99mm 超薄 · 专业睡眠监测',269,''],
+  ['wear','band','手环 10','轻薄 AMOLED 大屏',269,''],
+  ['wear','band','通话手环 B7','腕上蓝牙耳机二合一',999,''],
+  // ---------- 穿戴 · 儿童 ----------
+  ['wear','kid','超新星手表 X1 Pro','5 天关机定位 · 掌上相机',2298,'新品'],
+  ['wear','kid','超新星手表 X1','110° 超广角自拍 · 纯净社交',1598,'热销'],
+  ['wear','kid','儿童手表 5 Pro','高清双摄 · 离线定位',1198,''],
+  ['wear','kid','儿童手表 5X Pro','翻转双屏 · 前后双摄',1998,''],
+  ['wear','kid','儿童手表 5','离线定位 · 4G 全网通',698,''],
+  ['wear','kid','儿童手表 5 活力版','长续航 · 安全守护',658,''],
+  // ---------- 耳机 · FreeBuds ----------
+  ['audio','buds','FreeBuds Pro 5','母带级无损音质 · 星闪连接',1499,'热销'],
+  ['audio','buds','FreeBuds 7','半入耳主动降噪 · 悦彰音质',949,'新品'],
+  ['audio','buds','FreeBuds 7i','智慧动态降噪 4.0',599,''],
+  ['audio','buds','FreeBuds 6','超感知原声双单元',999,''],
+  ['audio','buds','FreeBuds 6i','旗舰级降噪深度',599,''],
+  ['audio','buds','FreeBuds Neo','流光小灵杆 · 全场景降噪',749,'新品'],
+  ['audio','buds','FreeBuds SE 4 ANC','50 小时续航 · 多模式降噪',299,'热销'],
+  ['audio','buds','FreeBuds SE 3','42 小时长续航',199,''],
+  ['audio','buds','FreeBuds SE 2','40 小时长续航',199,''],
+  ['audio','buds','FreeLace 活力版','半入耳舒适聆听',199,''],
+  // ---------- 耳机 · FreeClip ----------
+  ['audio','clip','FreeClip 2 典藏版','鎏光宝盒 · 云感 C 形桥',1499,'新品'],
+  ['audio','clip','FreeClip 2','全新 C 形桥 · 鸿蒙 AI 耳边助手',1299,'新品'],
+  ['audio','clip','FreeClip','开放式近耳聆听 · 8 小时续航',1299,''],
+  // ---------- 耳机 · FreeArc ----------
+  ['audio','arc','FreeArc','140° 三角稳固佩戴 · IP57',799,'热销'],
+  // ---------- 耳机 · 智能眼镜 ----------
+  ['audio','glass','华为 AI 眼镜','第一人称视角 · AI 闪拍',2499,'新品'],
+  ['audio','glass','智能眼镜 2','全天候智慧播报 · 开放式聆听',1699,''],
+  // ---------- 耳机 · 音箱 ----------
+  ['audio','sound','Sound X5','悦彰震撼听感 · 鸿蒙 AI',2199,''],
+  ['audio','sound','Sound X4','帝瓦雷联合设计',2199,''],
+  ['audio','sound','Sound Joy 2 智能版','便携户外音箱',1199,''],
+  ['audio','sound','悦彰家庭影院','多设备互联 · 沉浸环绕',9999,'旗舰'],
+  // ---------- PC · MateBook Pro ----------
+  ['pc','mbpro','MateBook Pro 麒麟X90 Plus','970g 超轻薄 · 40W 性能释放',9999,'热销'],
+  ['pc','mbpro','MateBook Pro S','798g · 3.1K 柔性 OLED 触控屏',7999,'新品'],
+  ['pc','mbpro','MateBook Pro 鸿蒙版','鸿蒙 AI · OLED 云晰柔光屏',9999,''],
+  // ---------- PC · MateBook 14 ----------
+  ['pc','mb14','MateBook 14 鸿蒙版','2.8K OLED 触控 · 21 小时续航',6299,'热销'],
+  ['pc','mb14','MateBook 14 酷睿 Ultra','2.8K OLED · 高性能处理器',6799,''],
+  // ---------- PC · MateBook D ----------
+  ['pc','mbd','MateBook D 16','16 英寸全面屏 · 13 代酷睿标压',5999,'热销'],
+  ['pc','mbd','MateBook D 16 SE','16 英寸全面屏',5099,''],
+  ['pc','mbd','MateBook D 14 SE','14 英寸全面屏',5599,''],
+  // ---------- PC · Fold ----------
+  ['pc','mbfold','MateBook Fold 非凡大师','18 英寸双层 OLED 折叠电脑',24999,'旗舰'],
+  // ---------- PC · 显示器 / 打印 ----------
+  ['pc','display','MateView GT 27 英寸','2K 200Hz · 旋转升降支架',999,''],
+  ['pc','display','MateView SE 27 英寸','90% P3 · 100Hz 高刷',529,''],
+  ['pc','display','MateView SE 23.8 英寸','电子书模式 · 全面屏',519,''],
+  ['pc','display','毕昇激光打印机 X1','打印复印扫描 · 一碰打印',1099,''],
+  // ---------- 平板 · Pro ----------
+  ['pad','padpro','MatePad Pro 12 英寸','超轻超薄 · 鸿蒙专业创作力',4899,'热销'],
+  ['pad','padpro','MatePad Pro Max','鸿蒙专业生产力 · 音悦家 App',5699,'新品'],
+  // ---------- 平板 · Air ----------
+  ['pad','padair','MatePad Air 12 英寸(第三代)','144Hz OLED 全面屏',3999,'热销'],
+  ['pad','padair','MatePad Air Z','12 英寸超清护眼屏',2499,'新品'],
+  // ---------- 平板 · 数字 / SE ----------
+  ['pad','padnum','MatePad 11.5 鸿蒙焕新版','120Hz 高刷 · 10100mAh',2099,'热销'],
+  ['pad','padnum','MatePad 11.5 S 鸿蒙焕新版','144Hz 高刷 · 华为笔记',2999,''],
+  ['pad','padnum','MatePad SE 11 英寸 焕新版','全金属机身 · 高刷护眼屏',1699,''],
+  // ---------- 平板 · Mini / Edge ----------
+  ['pad','padmini','MatePad Mini','8.8 英寸柔性 OLED · 全网通通话',4999,'新品'],
+  ['pad','padmini','MatePad Edge','14.2 英寸鸿蒙二合一 · X90 芯片',5499,'新品'],
+  // ---------- HD · Vision 智慧屏 ----------
+  ['hd','vision','Vision 智慧屏 6 Pro','Super MiniLED 黑晶屏 · 130W 音响',6808,'新品'],
+  ['hd','vision','Vision 智慧屏 6','4.9cm 超薄如画 · 鸿蒙 AI 搜片',5599,'热销'],
+  ['hd','vision','Vision 智慧屏 6 SE','Super MiniLED · 288Hz 流畅护眼',3349,'热销'],
+  ['hd','vision','Vision 智慧屏 6 SE RGB','RGB-MiniLED 真彩画质',3499,'新品'],
+  ['hd','vision','Vision 智慧屏 6 悦享版','4K 超级投屏 · Super MiniLED',4699,''],
+  ['hd','vision','Vision 智慧屏 5 Pro','超薄零贴墙 · 130W 音响',5149,''],
+  ['hd','vision','Vision 智慧屏 5','灵犀指向遥控 · Super MiniLED',4199,''],
+  ['hd','vision','Vision 智慧屏 5 SE 优享版','144Hz 流畅护眼 · 4K 投屏',3149,''],
+  // ---------- HD · S 系列 ----------
+  ['hd','s','智慧屏 S7 Pro','低反护眼黑晶屏 · 灵犀手写笔',7999,'新品'],
+  ['hd','s','智慧屏 S7','300Hz 流畅护眼 · 鸿蒙 AI',3999,'新品'],
+  ['hd','s','智慧屏 S7 RGB','RGB-MiniLED · 鸿鹄芯片光色同控',4999,'新品'],
+  ['hd','s','智慧屏 S7X Pro','灵犀指向遥控 · 超薄零贴墙',6299,''],
+  ['hd','s','智慧屏 S6 Pro','Super MiniLED · 灵犀指向遥控',6499,''],
+  ['hd','s','智慧屏 S6','智慧娱乐 · 4K 超清',2999,''],
+  // ---------- HD · MateTV ----------
+  ['hd','matetv','智慧屏 MateTV 2','麒麟 9 系芯片 · 华为黑钻屏',9999,'新品'],
+  ['hd','matetv','智慧屏 MateTV 2 悦享版','36.9mm 全金属超薄机身',7999,'新品'],
+  ['hd','matetv','智慧屏 MateTV 2 Pro','麒麟 9 系 · 黑钻屏',16999,'旗舰'],
+  ['hd','matetv','智慧屏 MateTV 2 Max','110 英寸巨幕',64999,'典藏'],
+  ['hd','matetv','智慧屏 MateTV','旗舰手机级性能 · 灵犀创新交互',8999,'热销'],
+  ['hd','matetv','智慧屏 MateTV Max 110','110 英寸跨时代旗舰',64999,'典藏'],
+  // ---------- HD · V 系列 ----------
+  ['hd','v','智慧屏 V5 Pro','旗舰音画 · 剧院级音响',12999,''],
+  ['hd','v','智慧屏 V5','鸿鹄画质 · 智慧交互',8999,''],
+];
+
+/* 按品类生成配置选项（加价用于试算） */
+function makeVariants(cat, base){
+  switch(cat){
+    case 'phone': return [
+      {v:'12GB+256GB 标准版',p:base},{v:'12GB+512GB 大存储版',p:base+400},{v:'16GB+512GB 顶配版',p:base+1000}];
+    case 'wear': return [
+      {v:'标准版',p:base},{v:'高配版 / 钛金属款',p:base+500},{v:'典藏版',p:base+1000}];
+    case 'audio': return [
+      {v:'标准版',p:base},{v:'典藏版 / 套装',p:base+200}];
+    case 'pc': return [
+      {v:'标准配置',p:base},{v:'高配（内存升级）',p:base+1000},{v:'顶配 / 套装',p:base+2000}];
+    case 'pad': return [
+      {v:'WiFi 标准版',p:base},{v:'大存储版',p:base+400},{v:'全网通 / 含键盘笔套装',p:base+800}];
+    case 'hd': return [
+      {v:'65 英寸',p:base},{v:'75 英寸',p:base+1500},{v:'85 英寸',p:base+3000},{v:'98 英寸',p:base+6000}];
+    default: return [{v:'标准版',p:base}];
+  }
+}
+const PRODUCTS=RAW.map((r,i)=>({
+  id:'p'+i, cat:r[0], series:r[1], name:r[2], brief:r[3], base:r[4], badge:r[5]||'',
+  variants:makeVariants(r[0],r[4])
+}));
+
+/* =============== 河源全市门店 =============== */
+const STORE_TYPES={
+  life:{name:'智能生活馆',cls:'life'},
+  exp:{name:'授权体验店',cls:''},
+};
+/* 高德 / 腾讯地图 POI + 华为官网 + 河源本地宝交叉整理（仅销售门店） */
+const STORES=[
+  // 源城区 7 家
+  {id:'s01',area:'源城区',type:'exp',name:'华为授权体验店（坚基购物中心）',
+   addr:'河源市源城区东埔街道越王大道与永康大道交汇处 坚基购物中心一层 L124 商铺',
+   tel:'0762-3890006 / 15360255111',time:'10:00-22:00',tags:['地图 POI','国补资格核销','以旧换新'],main:true},
+  {id:'s02',area:'源城区',type:'life',name:'华为智能生活馆（河源万隆城）',
+   addr:'广东省河源市源城区万隆城 1 楼 L1039A、L1040、L1041、L1041A、L1041B 铺',
+   tel:'0762-2888111 / 0762-2888000',time:'10:00-22:00（周五六至 22:30）',tags:['地图 POI','全品类体验']},
+  {id:'s03',area:'源城区',type:'exp',name:'华为授权体验店（广晟广场）',
+   addr:'河源市源城区东埔街道兴源西路 广晟广场第 1 层 A1001B 号（广晟停车场出口旁）',
+   tel:'0762-3820766 / 15113440224',time:'10:00-21:30',tags:['地图 POI','服务收机点']},
+  {id:'s04',area:'源城区',type:'exp',name:'华为授权体验店（河源中骏世界城）',
+   addr:'河源市源城区源南镇建设大道南 中骏璟峰（中骏世界城）',
+   tel:'0762-3123333 / 13143595944',time:'10:00-22:00',tags:['地图 POI','国补资格核销']},
+  {id:'s05',area:'源城区',type:'exp',name:'华为授权体验店（越王里）',
+   addr:'河源市源城区东埔街道越王里 A 区 A102',
+   tel:'19700683970',time:'10:00-21:00',tags:['地图 POI']},
+  {id:'s06',area:'源城区',type:'exp',name:'华为授权体验店（长塘路）',
+   addr:'河源市源城区新江街道长塘路怡景大厦 B 座第 4 卡一层',
+   tel:'13690990990',time:'09:30-21:30',tags:['地图 POI']},
+  {id:'s07',area:'源城区',type:'exp',name:'华为授权体验店（阳光城店 · 科技四路）',
+   addr:'河源市源城区高新技术开发区科技四路 益嘉阳光商业街 D 栋 101 号',
+   tel:'13553242162',time:'09:00-22:00',tags:['地图 POI']},
+  // 东源县 1 家
+  {id:'s13',area:'东源县',type:'exp',name:'华为授权体验店（河源东源万达广场店）',
+   addr:'河源市东源县仙塘镇深业路与东江大道交汇处（广场大道）河源东源万达广场 购物中心室内步行街 1F-次主 3 铺',
+   tel:'0762-2222599',time:'10:00-19:00',tags:['地图 POI','授权体验店','国补资格核销']},
+  // 龙川县 2 家
+  {id:'s15',area:'龙川县',type:'exp',name:'华为授权体验店（龙川泰华城店）',
+   addr:'河源市龙川县老隆镇新城一号小区泰华城 B 区 7 栋一层 101 商铺',
+   tel:'13192747605',time:'09:00-22:00',tags:['地图 POI','国补资格核销']},
+  {id:'s18',area:'龙川县',type:'exp',name:'华为授权店（老隆镇中和路 2-447 卡）',
+   addr:'河源市龙川县老隆镇新城规划区 2 号小区中和路 2-447 卡',
+   tel:'0762-6883066 / 13923693136',time:'08:30-22:00',tags:['地图 POI']},
+  // 和平县 1 家
+  {id:'s22',area:'和平县',type:'exp',name:'华为授权体验店（印象新天地）',
+   addr:'河源市和平县阳明镇福和大道南 印象新天地 1 层',
+   tel:'15907620706',time:'09:30-22:00',tags:['地图 POI']},
+  // 连平县 1 家
+  {id:'s26',area:'连平县',type:'exp',name:'华为授权体验店（忠信镇人民路）',
+   addr:'河源市连平县忠信镇人民路 193 号',
+   tel:'18802638565',time:'09:00-21:30',tags:['地图 POI']},
+  // 紫金县 2 家
+  {id:'s27',area:'紫金县',type:'exp',name:'华为授权体验店（东风路）',
+   addr:'河源市紫金县紫城镇东风路 机关事务局服务楼底层 8-10 店（另登记：水务局安置和服务用房）',
+   tel:'15986031888',time:'周一、周三至周日 09:30-18:30',tags:['地图 POI','两处登记地址']},
+  {id:'s28',area:'紫金县',type:'exp',name:'华为授权体验店（港盛新天地）',
+   addr:'河源市紫金县紫城镇港盛新天地一楼',
+   tel:'18823681090',time:'10:00-22:00',tags:['地图 POI']},
+];
+
+/* =========== 机型级补贴档位规则 =========== */
+const TRADE_RULES=[
+  {cap:1200,type:'25% 补贴封顶',keys:[/^Pura X Max/,/^Mate X7/,/^Mate X6/]},
+  {cap:1000,type:'25% 补贴封顶',keys:[/^MateBook Fold/]},
+  {cap:800, type:'25% 补贴封顶',keys:[/^Mate 90/,/^Mate 80 RS/]},
+  {cap:600, type:'25% 补贴封顶',keys:[/^Pura 90 Plus/,/^Pura X View/,/^Pura 90 Pro/,/^Mate 80 Pro/,/^nova 16 Ultra/,/^MateBook Pro 麒麟X90 Plus/]},
+  {cap:300, type:'25% 补贴封顶',keys:[/^Pura 90$/,/^Mate 80$/,/^nova 16 Pro/,/^nova 16$/,/^nova 16 SE/]},
+  {cap:200, type:'25% 补贴封顶',keys:[/^WATCH Buds 2/,/^畅享 100/]},
+];
+const EDU_RULES=[
+  {amt:0,  keys:[/^Mate 80 RS/,/^MatePad 11.5 S 鸿蒙焕新版/,/^MatePad Air 12 英寸.*鸿蒙焕新/]},
+  {amt:300,keys:[/^MateBook 14 鸿蒙版/,/^MatePad Edge/]},
+  {amt:500,keys:[/^MateBook Pro S/,/^MateBook Pro 麒麟X90 Plus/]},
+  {amt:200,keys:[/^MatePad Pro/,/^MatePad Mini/]},
+  {amt:150,keys:[/^MatePad Air/]},
+  {amt:100,keys:[/^Pura 90/,/^Mate 90/,/^Mate 80/,/^Pura X View/,/^MatePad 11.5/,/^MatePad SE 11 英寸 焕新版/]},
+];
+function ruleFor(name){
+  const hit=(arr)=>arr.some(re=>re.test(name));
+  let trade=0,tradeType='';
+  for(const g of TRADE_RULES){if(hit(g.keys)){trade=g.cap;tradeType=g.type;break;}}
+  let edu=0;for(const g of EDU_RULES){if(hit(g.keys)){edu=g.amt;break;}}
+  return {trade,tradeType,edu};
+}
+
+/* =============== 其他配置 =============== */
+const BENEFITS=[
+  {id:'film',name:'免费贴膜 + 清洁保养'},
+  {id:'case',name:'赠原厂透明保护壳（部分机型）'},
+  {id:'care',name:'碎屏宝 9 折'},
+  {id:'school',name:'华为学堂付费课程免费名额'},
+  {id:'data',name:'旧机数据迁移 + 免费消毒'},
+];
+
+/* =============== 状态 =============== */
+const state={
+  cat:'phone', series:'mate', product:'p0', variant:0,
+  guobu:true,
+  shengbu:false, shengbuAmt:0,
+  trade:false, tradeAmt:0,
+  operator:false, operatorAmt:500,
+  edu:false, eduAmt:0,
+  birth:false,
+  install:'full', priceOverride:null,
+  benefits:new Set(['film','case']), store:'s01',
+};
+let storeFilter={area:'all',type:'all'};
+/* 规则字段在常量定义之后统一挂载，避免 TDZ */
+PRODUCTS.forEach(p=>{p.rule=ruleFor(p.name);});
+
+/* =============== 计算 =============== */
+function curProduct(){return PRODUCTS.find(p=>p.id===state.product)||PRODUCTS[0];}
+/* 官网价 / 自定义成交价 */
+function officialPrice(){const p=curProduct();return p.variants[state.variant].p;}
+function basePrice(){return state.priceOverride!=null?state.priceOverride:officialPrice();}
+function guobuInfo(cat,base){
+  if(cat==='pc'||cat==='hd'||cat==='audio')
+    return {amount:Math.min(Math.round(base*0.15),1500),label:'国补（15% · 封顶¥1,500）',
+            text:'PC / 智慧屏 / 耳机：按 15% 补贴，单件封顶 ¥1,500'};
+  const rate=base<=6000?0.15:0.10;
+  return {amount:Math.min(Math.round(base*rate),500),
+          label:'国补（'+(rate*100)+'% · 封顶¥500）',
+          text:'手机 / 平板 / 穿戴：≤¥6,000 享 15%，>¥6,000 享 10%，封顶 ¥500'};
+}
+function num(v){return Math.max(0,Number(v)||0);}
+/* 智慧屏 S7 Pro 按尺寸固定补贴：98/85/75/65 → 600/400/300/200 */
+function tradeRuleAmt(p){
+  if(p.name.indexOf('智慧屏 S7 Pro')===0){
+    const m={'65 英寸':200,'75 英寸':300,'85 英寸':400,'98 英寸':600};
+    return m[p.variants[state.variant].v]||0;
+  }
+  return p.rule.trade;
+}
+function eduRuleAmt(p){return p.rule.edu;}
+function birthAmt(base){return base>=5000?200:base>=3000?150:base>=1000?100:0;}
+function installOptions(){
+  return [{id:'full',n:0,name:'全款'},
+          {id:'i6',n:6,name:'6 期免息'},
+          {id:'i12',n:12,name:'12 期免息'},
+          {id:'i24',n:24,name:'24 期免息'}];
+}
+function calc(){
+  const p=curProduct();
+  const base=basePrice();
+  const g=guobuInfo(p.cat,base);
+  const guobu=state.guobu?g.amount:0;
+  const shengbu=state.shengbu?num(state.shengbuAmt):0;
+  const trade=state.trade?num(state.tradeAmt):0;
+  const operator=state.operator?num(state.operatorAmt):0;
+  const edu=state.edu?num(state.eduAmt):0;
+  const birth=state.birth?birthAmt(base):0;
+  const final=Math.max(base-guobu-shengbu-trade-operator-edu-birth,0);
+  const save=base-final;
+  const ins=installOptions().find(i=>i.id===state.install)||{id:'full',n:0,name:'全款'};
+  return {base,guobu,guobuLabel:g.label,guobuText:g.text,shengbu,trade,tradeCap:tradeRuleAmt(p),
+          operator,edu,eduRule:eduRuleAmt(p),birth,birthRule:birthAmt(base),
+          final,save,ins,product:p};
+}
+/* 互斥兜底：分期×换新、生日礼×教育/换新 */
+function enforceMutex(){
+  if(state.install!=='full'&&state.trade)state.trade=false;
+  if(state.birth&&state.trade)state.trade=false;
+  if(state.birth&&state.edu)state.edu=false;
+}
+/* 切换机型 / 配置后，按图例自动带出金额 */
+function syncRuleAmounts(){
+  const p=curProduct();
+  state.tradeAmt=tradeRuleAmt(p);
+  state.eduAmt=eduRuleAmt(p);
+  const it=document.getElementById('inpTrade');if(it)it.value=state.tradeAmt;
+  const ie=document.getElementById('inpEdu');if(ie)ie.value=state.eduAmt;
+  state.priceOverride=null;
+  const ip=document.getElementById('inpPrice');if(ip)ip.value=p.variants[state.variant].p;
+  const of=document.getElementById('officialPrice');
+  if(of)of.textContent='¥'+p.variants[state.variant].p.toLocaleString();
+  if(!installOptions().some(i=>i.id===state.install))state.install='full';
+}
+
+/* =============== 渲染 =============== */
+function renderCate(){
+  document.getElementById('cateTabs').innerHTML=CATS.map(c=>
+    `<div class="cate-tab ${state.cat===c.id?'active':''}" onclick="setCat('${c.id}')">
+       <span class="ico">${c.icon}</span>${c.name}</div>`).join('');
+}
+function renderSelects(){
+  const cat=state.cat,ss=SERIES[cat];
+  if(!ss.some(s=>s.id===state.series))state.series=ss[0].id;
+  const ps=PRODUCTS.filter(p=>p.cat===cat&&p.series===state.series);
+  if(!ps.some(p=>p.id===state.product)){state.product=ps[0].id;state.variant=0;}
+  const p=curProduct();
+  document.getElementById('selSeries').innerHTML=ss.map(s=>
+    `<option value="${s.id}" ${s.id===state.series?'selected':''}>${s.name}（${PRODUCTS.filter(x=>x.cat===cat&&x.series===s.id).length} 款）</option>`).join('');
+  document.getElementById('selProduct').innerHTML=ps.map(x=>
+    `<option value="${x.id}" ${x.id===state.product?'selected':''}>${x.badge?'【'+x.badge+'】':''}HUAWEI ${x.name} · ¥${x.base.toLocaleString()} 起</option>`).join('');
+  document.getElementById('selVariant').innerHTML=p.variants.map((v,i)=>
+    `<option value="${i}" ${i===state.variant?'selected':''}>${v.v} · ¥${v.p.toLocaleString()}</option>`).join('');
+  document.getElementById('seriesCount').textContent=ss.length;
+  document.getElementById('modelCount').textContent='共 '+PRODUCTS.length+' 款在售机型';
+  document.getElementById('modelInfo').innerHTML=
+    `<div class="mi-ico">${CATS.find(c=>c.id===cat).icon}</div>
+     <div><div class="mi-name">HUAWEI ${p.name} ${p.badge?`<span class="st-tag">${p.badge}</span>`:''}</div>
+          <div class="mi-brief">${p.brief}</div></div>
+     <div class="mi-price"><b>¥${p.variants[state.variant].p.toLocaleString()}</b><small>官网/商城起售价</small></div>`;
+}
+function renderRules(){
+  const p=curProduct(),r=calc();
+  const isS7=p.name.indexOf('智慧屏 S7 Pro')===0;
+  document.getElementById('ruleNote').innerHTML=
+    `<b>当前机型 · ${p.name}</b> 可享档位：<br>`+
+    `· 分期免息：<b>6 / 12 / 24 期可选</b>（0 手续费）<br>`+
+    `· 以旧换新：<b>${r.tradeCap>0?'¥'+r.tradeCap+'（'+(isS7?'固定补贴 · 按尺寸':p.rule.tradeType||'机型档位')+'）':'未列入档位，可手动填写'}</b><br>`+
+    `· 体验店教育优惠：<b>${p.rule.edu>0?'¥'+p.rule.edu:'不参与'}</b><br>`+
+    `· 会员生日礼：<b>¥${r.birthRule}</b>（满 5000-200 / 3000-150 / 1000-100，按当前配置价）`;
+  const tag=(id,ok,txt)=>{const e=document.getElementById(id);e.textContent=txt;e.className='rule-tag'+(ok?'':' off');};
+  tag('tradeRuleTag',r.tradeCap>0,r.tradeCap>0?'机型档位 ¥'+r.tradeCap:'未列入');
+  tag('eduRuleTag',p.rule.edu>0,p.rule.edu>0?'机型档位 ¥'+p.rule.edu:'不参与');
+  document.getElementById('tradeAmtHint').textContent=r.tradeCap>0?'机型档位 ¥'+r.tradeCap:'手动填写';
+  document.getElementById('mutexTip').innerHTML=
+    `<b>叠加 / 互斥规则</b>：分期免息与以旧换新<b>互斥</b>；生日礼与教育优惠、以旧换新、组合购<b>不可叠加</b>（与分期免息、商务优惠可叠加）。分期免息可与其他单一优惠政策叠加，金额可手动调整。`;
+}
+function renderInstall(){
+  document.getElementById('installOpts').innerHTML=installOptions().map(i=>
+    `<div class="opt-btn ${state.install===i.id?'active':''}" onclick="setInstall('${i.id}')">
+       ${i.name}<small>${i.n>0?'0 手续费':'一次付清'}</small></div>`).join('');
+}
+function renderBenefits(){
+  document.getElementById('benefitList').innerHTML=BENEFITS.map(b=>
+    `<div class="benefit ${state.benefits.has(b.id)?'on':''}" onclick="toggleBenefit('${b.id}')">
+       <div class="checkbox">${state.benefits.has(b.id)?'✓':''}</div>
+       <div class="b-name">${b.name}</div></div>`).join('');
+}
+function renderResult(){
+  const r=calc();
+  document.getElementById('rowBase').textContent='¥'+r.base.toLocaleString();
+  document.getElementById('rowGuobuLabel').textContent=r.guobuLabel;
+  document.getElementById('rowGuobu').textContent='-¥'+r.guobu.toLocaleString();
+  document.getElementById('rowShengbu').textContent='-¥'+r.shengbu.toLocaleString();
+  document.getElementById('rowTrade').textContent='-¥'+r.trade.toLocaleString();
+  document.getElementById('rowOperator').textContent='-¥'+r.operator.toLocaleString();
+  document.getElementById('rowEdu').textContent='-¥'+r.edu.toLocaleString();
+  document.getElementById('rowBirth').textContent='-¥'+r.birth.toLocaleString();
+  [['rowGuobuWrap',r.guobu],['rowShengbuWrap',r.shengbu],['rowTradeWrap',r.trade],
+   ['rowOperatorWrap',r.operator],['rowEduWrap',r.edu],['rowBirthWrap',r.birth]].forEach(([id,v])=>{
+     document.getElementById(id).style.display=v>0?'flex':'none';
+   });
+  document.getElementById('rowFinal').innerHTML='<small>¥</small>'+r.final.toLocaleString();
+  document.getElementById('rowSave').textContent='¥'+r.save.toLocaleString();
+  document.getElementById('guobuDesc').textContent=r.guobuText;
+  const el=document.getElementById('rowInstall');
+  if(r.ins.n>0){
+    el.style.display='block';
+    el.innerHTML=`分期免息：<b>¥${Math.ceil(r.final/r.ins.n).toLocaleString()}</b>/期 × ${r.ins.n}期 · 0 手续费 · 花呗 / 京东白条 / 聚分期`;
+  }else el.style.display='none';
+}
+function renderStoreFilters(){
+  const areas=['all',...new Set(STORES.map(s=>s.area))];
+  document.getElementById('selArea').innerHTML=areas.map(a=>
+    `<option value="${a}" ${storeFilter.area===a?'selected':''}>${a==='all'?'全部区域':a+'（'+STORES.filter(s=>s.area===a).length+' 家）'}</option>`).join('');
+  const types=['all',...Object.keys(STORE_TYPES)];
+  document.getElementById('selType').innerHTML=types.map(t=>
+    `<option value="${t}" ${storeFilter.type===t?'selected':''}>${t==='all'?'全部类型':STORE_TYPES[t].name+'（'+STORES.filter(s=>s.type===t).length+' 家）'}</option>`).join('');
+}
+function renderCurStore(){
+  const s=STORES.find(x=>x.id===state.store)||STORES[0];
+  document.getElementById('curStoreBox').innerHTML=
+    `<div class="cs-label">当前门店 · ${STORE_TYPES[s.type].name}</div>
+     <div class="cs-name">${s.name}</div>
+     <div class="cs-addr">地址：${s.addr}</div>
+     <div class="cs-addr">营业 ${s.time} · 电话 ${s.tel}</div>`;
+}
+/* 下拉里用「括号内简称」，避免长名称被截断 */
+function shortStoreName(s){
+  const m=s.name.match(/（([^）]+)）/);
+  return m?m[1]:s.name.replace(/^华为/,'');
+}
+function storeOptions(){
+  return STORES.filter(s=>
+    (storeFilter.area==='all'||s.area===storeFilter.area)&&
+    (storeFilter.type==='all'||s.type===storeFilter.type));
+}
+function renderStores(){
+  const list=storeOptions();
+  if(!list.some(s=>s.id===state.store)&&list.length)state.store=list[0].id;
+  const sel=document.getElementById('selStore');
+  sel.innerHTML=list.length
+    ? list.map(s=>
+        `<option value="${s.id}" ${s.id===state.store?'selected':''}>${s.area} · ${shortStoreName(s)}</option>`
+      ).join('')
+    : '<option value="">该筛选条件下暂无门店</option>';
+  document.getElementById('storeCount').textContent='共 '+STORES.length+' 家';
+  document.getElementById('storeCount2').textContent=list.length+' 家';
+  renderCurStore();
+  const cur=STORES.find(x=>x.id===state.store);
+  if(cur){
+    document.getElementById('bannerTitle').textContent='欢迎光临'+STORE_TYPES[cur.type].name;
+    document.getElementById('storeRowName').textContent=cur.name;
+    document.getElementById('storeRowTime').textContent=cur.time;
+    document.getElementById('bannerAddr').textContent=cur.addr;
+  }
+}
+
+/* =============== 交互 =============== */
+function setCat(c){state.cat=c;state.series=SERIES[c][0].id;
+  state.product=PRODUCTS.filter(p=>p.cat===c&&p.series===state.series)[0].id;state.variant=0;
+  syncRuleAmounts();refresh();}
+function setSeries(s){state.series=s;state.product=PRODUCTS.filter(p=>p.cat===state.cat&&p.series===s)[0].id;
+  state.variant=0;syncRuleAmounts();refresh();}
+function setProduct(id){const p=PRODUCTS.find(x=>x.id===id);
+  if(p){state.cat=p.cat;state.series=p.series;}
+  state.product=id;state.variant=0;syncRuleAmounts();refresh();}
+function setVariant(i){state.variant=Number(i);syncRuleAmounts();refresh();}
+function setAmt(key,val){state[key]=Math.max(0,Math.round(Number(val)||0));renderResult();}
+function setPrice(v){
+  const s=String(v).trim();
+  state.priceOverride = s==='' ? null : Math.max(0, Math.round(Number(s)||0));
+  renderResult();
+}
+function resetPrice(){
+  state.priceOverride=null;
+  const el=document.getElementById('inpPrice');if(el)el.value=officialPrice();
+  refresh();showToast('已恢复官网价 ¥'+officialPrice().toLocaleString());
+}
+function setInstall(id){
+  state.install=id;
+  if(id!=='full'&&state.trade){state.trade=false;showToast('分期免息与以旧换新互斥，已关闭以旧换新');}
+  refresh();
+}
+function syncSwitches(){
+  [['tglGuobu','guobu'],['tglShengbu','shengbu'],['tglTrade','trade'],
+   ['tglOperator','operator'],['tglEdu','edu'],['tglBirth','birth']]
+    .forEach(([id,k])=>document.getElementById(id).classList.toggle('on',state[k]));
+  document.getElementById('shengbuAmtRow').style.display=state.shengbu?'flex':'none';
+  document.getElementById('tradeAmtRow').style.display=state.trade?'flex':'none';
+  document.getElementById('operatorAmtRow').style.display=state.operator?'flex':'none';
+  document.getElementById('eduAmtRow').style.display=state.edu?'flex':'none';
+}
+function toggle(key){
+  state[key]=!state[key];
+  if(key==='trade'&&state.trade){
+    if(state.install!=='full'){state.install='full';showToast('已改为全款：分期免息与以旧换新互斥');}
+    if(state.birth){state.birth=false;showToast('生日礼与以旧换新不可叠加，已关闭生日礼');}
+  }
+  if(key==='edu'&&state.edu&&state.birth){state.birth=false;showToast('生日礼与教育优惠不可叠加，已关闭生日礼');}
+  if(key==='birth'&&state.birth){
+    if(state.trade){state.trade=false;showToast('生日礼与以旧换新不可叠加，已关闭以旧换新');}
+    if(state.edu){state.edu=false;showToast('生日礼与教育优惠不可叠加，已关闭教育优惠');}
+  }
+  syncSwitches();refresh();
+}
+function toggleBenefit(id){state.benefits.has(id)?state.benefits.delete(id):state.benefits.add(id);renderBenefits();refresh();}
+function pickStore(id){
+  if(!STORES.some(s=>s.id===id))return;
+  state.store=id;renderStores();
+  const s=STORES.find(x=>x.id===id);showToast('已切换门店：'+s.name);
+}
+function navCurrent(){navTo(state.store);}
+function navTo(id){
+  const s=STORES.find(x=>x.id===id);showToast('正在打开地图导航…');
+  const a=document.createElement('a');
+  a.href='https://uri.amap.com/search?keyword='+encodeURIComponent(s.addr)+'&city=441600';
+  a.target='_blank';a.rel='noopener noreferrer';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function resetAll(){
+  state.cat='phone';state.series='mate';state.product='p0';state.variant=0;
+  state.guobu=true;state.shengbu=false;state.shengbuAmt=0;
+  state.trade=false;state.operator=false;state.operatorAmt=500;
+  state.edu=false;state.birth=false;state.install='full';state.priceOverride=null;
+  state.benefits=new Set(['film','case']);
+  document.getElementById('inpShengbu').value=0;
+  document.getElementById('inpOperator').value=500;
+  syncRuleAmounts();refresh();showToast('已重置为默认配置');
+}
+let toastTimer;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1600);}
+function refresh(){
+  enforceMutex();
+  renderCate();renderSelects();renderRules();renderInstall();
+  renderBenefits();renderResult();syncSwitches();
+}
+
+/* =============== 分享图 =============== */
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function drawShare(){
+  const r=calc(),s=STORES.find(x=>x.id===state.store);
+  /* 明细行按实际优惠动态生成，画布高度自适应 */
+  const cuts=[];
+  if(r.guobu>0)cuts.push([r.guobuLabel,'-¥'+r.guobu.toLocaleString()]);
+  if(r.shengbu>0)cuts.push(['省级补贴（省补）','-¥'+r.shengbu.toLocaleString()]);
+  if(r.trade>0)cuts.push(['以旧换新补贴','-¥'+r.trade.toLocaleString()]);
+  if(r.operator>0)cuts.push(['运营商政策优惠','-¥'+r.operator.toLocaleString()]);
+  if(r.edu>0)cuts.push(['体验店教育优惠','-¥'+r.edu.toLocaleString()]);
+  if(r.birth>0)cuts.push(['会员生日礼','-¥'+r.birth.toLocaleString()]);
+  const insOn=r.ins.n>0;
+  const W=750,cardTop=210;
+  const cardH=448+cuts.length*52+(insOn?92:0);
+  const H=cardTop+cardH+86;
+  const cv=document.getElementById('shareImg');
+  cv.width=W;cv.height=H;
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+  const grad=ctx.createLinearGradient(0,0,W,260);
+  grad.addColorStop(0,'#e03024');grad.addColorStop(1,'#a50006');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#fff';ctx.font='bold 44px sans-serif';ctx.fillText('华为购机权益分享图',50,90);
+  ctx.font='22px sans-serif';ctx.globalAlpha=.9;
+  ctx.fillText(s.name,50,130,650);ctx.fillText('河源市 · 到店享专属礼遇',50,165);ctx.globalAlpha=1;
+  ctx.fillStyle='#fff';roundRect(ctx,40,cardTop,670,cardH,24);ctx.fill();
+  let y=cardTop+60;
+  ctx.fillStyle='#111';ctx.font='bold 36px sans-serif';ctx.fillText('HUAWEI '+r.product.name,70,y,610);
+  ctx.font='24px sans-serif';ctx.fillStyle='#888';
+  ctx.fillText(r.product.variants[state.variant].v+'  ·  '+r.product.brief,70,y+42,610);
+  y+=110;
+  const line=(label,val,color)=>{
+    ctx.fillStyle='#555';ctx.font='25px sans-serif';ctx.fillText(label,70,y,420);
+    ctx.fillStyle=color||'#111';ctx.font='bold 27px sans-serif';
+    const w=ctx.measureText(val).width;ctx.fillText(val,660-w,y);y+=52;
+  };
+  line('商品价格','¥'+r.base.toLocaleString());
+  cuts.forEach(([l,v])=>line(l,v,'#07a35c'));
+  ctx.strokeStyle='#eee';ctx.setLineDash([8,8]);ctx.beginPath();ctx.moveTo(70,y);ctx.lineTo(680,y);ctx.stroke();ctx.setLineDash([]);
+  y+=48;
+  ctx.fillStyle='#c7000b';ctx.font='30px sans-serif';ctx.fillText('预计到手价',70,y);
+  ctx.font='bold 64px sans-serif';const fp='¥'+r.final.toLocaleString();
+  ctx.fillText(fp,680-ctx.measureText(fp).width,y+8);
+  y+=88;
+  if(insOn){
+    ctx.fillStyle='#fff4f2';roundRect(ctx,70,y,590,66,14);ctx.fill();
+    ctx.fillStyle='#c7000b';ctx.font='bold 27px sans-serif';
+    ctx.fillText('分期免息 ¥'+Math.ceil(r.final/r.ins.n).toLocaleString()+'/期 × '+r.ins.n+'期',95,y+43,540);y+=92;
+  }
+  ctx.fillStyle='#333';ctx.font='26px sans-serif';ctx.fillText('综合节省：¥'+r.save.toLocaleString(),70,y);
+  ctx.fillStyle='#999';ctx.font='20px sans-serif';
+  ctx.fillText('· 综合节省 = 商品价格 − 预计到手价',70,y+34);
+  ctx.fillText('· 优惠金额可在页面调整，最终以门店核销为准',70,y+66);
+  const barY=cardTop+cardH+18;
+  ctx.fillStyle='#171719';roundRect(ctx,40,barY,670,50,24);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='22px sans-serif';ctx.fillText(s.addr,70,barY+33,620);
+  /* 微信 WebView 长按 canvas 无法保存，转成 <img> 才能弹出「保存图片」 */
+  const pv=document.getElementById('sharePreview');
+  try{pv.src=cv.toDataURL('image/png');}catch(e){}
+}
+function openShare(){
+  drawShare();
+  if(IS_WX){
+    document.getElementById('shareTip').innerHTML='<b style="color:#c7000b">长按上方图片 →「保存图片」/「发送给朋友」</b><br>点右上角「···」可把本页分享给好友或朋友圈<br>截图为试算结果，最终优惠以门店核销为准';
+    document.getElementById('btnSave').textContent='保存说明';
+  }
+  document.getElementById('mask').classList.add('show');
+}
+function closeShare(){document.getElementById('mask').classList.remove('show');}
+/* 微信内置浏览器识别：分享图保存、分享入口、复制兜底均按其行为适配 */
+const IS_WX=/MicroMessenger/i.test(navigator.userAgent);
+/* 统一复制：安全上下文用 Clipboard API，http / 老旧 WebView 用 execCommand 兜底 */
+function copyText(txt,okMsg,failMsg){
+  const ok=()=>showToast(okMsg);
+  const fallback=()=>{
+    try{
+      const ta=document.createElement('textarea');
+      ta.value=txt;ta.setAttribute('readonly','');
+      ta.style.cssText='position:fixed;top:0;left:0;opacity:0;font-size:16px;-webkit-user-select:text;user-select:text;';
+      document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,txt.length);
+      const done=document.execCommand('copy');document.body.removeChild(ta);
+      done?ok():showToast(failMsg);
+    }catch(e){showToast(failMsg);}
+  };
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(ok).catch(fallback);
+  }else fallback();
+}
+function sharePage(){
+  if(IS_WX){showToast('请点右上角「···」→ 发送给朋友 / 分享到朋友圈');return;}
+  const data={title:document.title,text:'河源华为购机权益试算，补贴与分期一站算清',url:location.href};
+  const fb=()=>copyText(data.url,'页面链接已复制，可直接发给好友','复制失败，请手动复制地址栏链接');
+  if(navigator.share){navigator.share(data).catch(fb);}
+  else fb();
+}
+function goBack(){
+  if(history.length>1)history.back();
+  else window.scrollTo({top:0,behavior:'smooth'});
+}
+function downloadShare(){
+  if(IS_WX){showToast('长按上方图片 →「保存图片」，再发给朋友');return;}
+  try{
+    const url=document.getElementById('shareImg').toDataURL('image/png');
+    const a=document.createElement('a');a.href=url;a.download='河源华为购机权益分享图.png';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    showToast(/iP(hone|ad|od)/.test(navigator.userAgent)?'如未自动保存，请长按上方图片存入相册':'已保存分享图');
+  }catch(e){showToast('图片生成失败，请重试');}
+}
+function copySummary(){
+  const r=calc(),s=STORES.find(x=>x.id===state.store);
+  const cuts=[];
+  if(r.guobu>0)cuts.push(r.guobuLabel+' -¥'+r.guobu);
+  if(r.shengbu>0)cuts.push('省补 -¥'+r.shengbu);
+  if(r.trade>0)cuts.push('以旧换新补贴 -¥'+r.trade);
+  if(r.operator>0)cuts.push('运营商政策 -¥'+r.operator);
+  if(r.edu>0)cuts.push('教育优惠 -¥'+r.edu);
+  if(r.birth>0)cuts.push('会员生日礼 -¥'+r.birth);
+  const txt=`【河源华为购机试算】HUAWEI ${r.product.name} ${r.product.variants[state.variant].v}\n`+
+    `商品价格 ¥${r.base.toLocaleString()}`+(cuts.length?'，'+cuts.join('，'):'')+'\n'+
+    `预计到手价 ¥${r.final.toLocaleString()}，综合节省 ¥${r.save.toLocaleString()}\n`+
+    (r.ins.n>0?`分期免息 ¥${Math.ceil(r.final/r.ins.n).toLocaleString()}/期 × ${r.ins.n}期\n`:'')+
+    `门店：${s.name}\n地址：${s.addr}\n优惠金额以门店当期政策与核销结果为准`;
+  copyText(txt,'试算摘要已复制，可粘贴发送','复制失败，请长按页面手动选择文字');
+}
+
+/* =============== 初始化 =============== */
+renderStoreFilters();
+renderStores();
+syncRuleAmounts();
+refresh();
+</script>
+</body>
+</html>
